@@ -78,7 +78,7 @@ class _BerandaPageState extends State<BerandaPage> {
                       _buildGojekServicesMenu(),
                     ],
                   )),
-             new Container(
+              new Container(
                 color: Colors.white,
                 margin: EdgeInsets.only(top: 16.0),
                 child: new Column(
@@ -86,7 +86,8 @@ class _BerandaPageState extends State<BerandaPage> {
                     _buildGoFoodFeatured(),
                   ],
                 ),
-              )
+              ),
+              _buildPromo(),
             ],
           ),
         ),
@@ -265,7 +266,7 @@ class _BerandaPageState extends State<BerandaPage> {
           new Padding(
             padding: EdgeInsets.only(top: 6.0),
           ),
-          new Text(gojekService.title, style: new TextStyle(fontSize: 10.0))
+          new Text(gojekService.title ?? '', style: new TextStyle(fontSize: 10.0))
         ],
       ),
     );
@@ -290,17 +291,18 @@ class _BerandaPageState extends State<BerandaPage> {
           ),
           new SizedBox(
             height: 172.0,
-            child: FutureBuilder<List>(
+            child: FutureBuilder<List<Food>>(
                 future: fetchFood(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.hasData && snapshot.data != null) {
+                    final foodList = snapshot.data!;
                     return new ListView.builder(
-                      itemCount: snapshot.data.length,
+                      itemCount: foodList.length,
                       padding: EdgeInsets.only(top: 12.0),
                       physics: new ClampingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return _rowGoFoodFeatured(snapshot.data[index]);
+                        return _rowGoFoodFeatured(foodList[index]);
                       },
                     );
                   }
@@ -325,7 +327,7 @@ class _BerandaPageState extends State<BerandaPage> {
           new ClipRRect(
             borderRadius: new BorderRadius.circular(8.0),
             child: new Image.asset(
-              food.image,
+              food.image ?? '',
               width: 132.0,
               height: 132.0,
             ),
@@ -334,7 +336,7 @@ class _BerandaPageState extends State<BerandaPage> {
             padding: EdgeInsets.only(top: 8.0),
           ),
           new Text(
-            food.title,
+            food.title ?? '',
           ),
         ],
       ),
@@ -344,12 +346,13 @@ class _BerandaPageState extends State<BerandaPage> {
   Widget _buildPromo() {
     return new Container(
         margin: EdgeInsets.all(16.0),
-        child: FutureBuilder(
+        child: FutureBuilder<List<Promo>>(
           future: fetchPromo(),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.hasData && snapshot.data != null) {
+              final promoList = snapshot.data!;
               return new Column(
-                  children: snapshot.data.map<Widget>((data) {
+                  children: promoList.map<Widget>((data) {
                 return _rowPromo(data);
               }).toList());
             }
@@ -378,7 +381,7 @@ class _BerandaPageState extends State<BerandaPage> {
           new ClipRRect(
             borderRadius: new BorderRadius.circular(8.0),
             child: new Image.asset(
-              promo.image,
+              promo.image ?? '',
               height: 172.0,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -388,14 +391,14 @@ class _BerandaPageState extends State<BerandaPage> {
             padding: EdgeInsets.only(top: 16.0),
           ),
           new Text(
-            promo.title,
+            promo.title ?? '',
             style: new TextStyle(fontFamily: "NeoSansBold", fontSize: 16.0),
           ),
           new Padding(
             padding: EdgeInsets.only(top: 8.0),
           ),
           new Text(
-            promo.content,
+            promo.content ?? '',
             maxLines: 2,
             softWrap: true,
             style: new TextStyle(color: Colors.grey, fontSize: 14.0),
@@ -409,7 +412,7 @@ class _BerandaPageState extends State<BerandaPage> {
               color: GojekPalette.green,
               onPressed: () {},
               child: new Text(
-                promo.button,
+                promo.button ?? '',
                 style: new TextStyle(
                     color: Colors.white,
                     fontFamily: "NeoSansBold",
@@ -442,8 +445,10 @@ class _BerandaPageState extends State<BerandaPage> {
                 "GO-JEK Services",
                 style: new TextStyle(fontFamily: "NeoSansBold", fontSize: 18.0),
               ),
-              new OutlineButton(
-                color: GojekPalette.green,
+              new OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: GojekPalette.green),
+                ),
                 onPressed: () {},
                 child: new Text(
                   "EDIT FAVORITES",

@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         fontFamily: 'NeoSans',
         primaryColor: GojekPalette.green,
-        accentColor: GojekPalette.green,
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: GojekPalette.green),
       ),
       home: new LauncherPage(),
     );

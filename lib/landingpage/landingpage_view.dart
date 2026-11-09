@@ -11,6 +11,9 @@ class _LandingPageState extends State<LandingPage> {
   int _bottomNavCurrentIndex = 0;
   List<Widget> _container = [
     new BerandaPage(),
+    new Scaffold(body: Center(child: Text("Halaman Pesanan"))),
+    new Scaffold(body: Center(child: Text("Halaman Inbox"))),
+    new Scaffold(body: Center(child: Text("Halaman Akun"))),
   ];
 
   @override
@@ -40,9 +43,7 @@ class _LandingPageState extends State<LandingPage> {
               Icons.home,
               color: Colors.grey,
             ),
-            title: new Text(
-              'Beranda',
-            ),
+            label: 'Beranda',
           ),
           BottomNavigationBarItem(
             activeIcon: new Icon(
@@ -53,7 +54,7 @@ class _LandingPageState extends State<LandingPage> {
               Icons.assignment,
               color: Colors.grey,
             ),
-            title: new Text('Pesanan'),
+            label: 'Pesanan',
           ),
           BottomNavigationBarItem(
             activeIcon: new Icon(
@@ -64,7 +65,7 @@ class _LandingPageState extends State<LandingPage> {
               Icons.mail,
               color: Colors.grey,
             ),
-            title: new Text('Inbox'),
+            label: 'Inbox',
           ),
           BottomNavigationBarItem(
             activeIcon: new Icon(
@@ -75,7 +76,7 @@ class _LandingPageState extends State<LandingPage> {
               Icons.person,
               color: Colors.grey,
             ),
-            title: new Text('Akun'),
+            label: 'Akun',
           ),
         ],
       );
